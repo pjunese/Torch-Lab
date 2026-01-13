@@ -1,92 +1,32 @@
-# 인코더-디코더 워터마킹 노트북(모각소 1주차)
+#  [모각소] 소프트웨어융합 학과 자율 스터디 기록
 
-이 노트북은 이미지 워터마크 인코더와 ViT 기반 검출기를 학습합니다. 32비트 메시지를 이미지에 삽입하고 간단한 공격 전/후의 복원 정확도를 평가합니다.
 
-## 구성
-- Colab 설정: Drive 마운트, DRIVE_ROOT/OUTPUT_DIR 지정
-- COCO 2017 다운로드 및 압축 해제
-- /content/wm_global32에 models.py, train.py, inference_test.py 생성
-- 학습 루프: BCE 비트 손실 + lambda_img * MSE, PSNR 기록, alpha로 워터마크 강도 조절
-- 추론 테스트: 날짜 메시지 삽입, resize/crop/JPEG 공격, 결과 이미지 및 diff map 저장
 
-## 요구 사항
-- Google Colab (GPU)
-- Python 패키지: torch, torchvision, pillow, tqdm
-- COCO 2017 데이터셋 (train2017, val2017, annotations)
+##  소개
+**모각소**는 소프트웨어융합 소속 학생들이 모여 각자의 IT 역량을 강화하고 학습 내용을 기록하는 자율 스터디 모임입니다.
 
-## 빠른 시작 (Colab)
-1) Drive 마운트 및 경로 설정.
+단순한 코드 작성을 넘어, 매주 학습한 딥러닝/AI 모델의 이론적 배경을 정리하고 실제 데이터를 통해 성능을 검증하는 과정을 이 저장소에 담고 있습니다.
 
-```python
-from google.colab import drive
-drive.mount("/content/drive")
-DRIVE_ROOT = "/content/drive/MyDrive/wm_global32"
-OUTPUT_DIR = f"{DRIVE_ROOT}/output"
-```
+---
 
-2) 패키지 설치.
+## 활동 기록 (Weekly Logs)
 
-```bash
-!pip -q install pillow tqdm torchvision
-```
+| 주차 | 주제 (Topic) | 주요 기술 (Tech Stack) | 상세 리드미 |
+|:---:|:---|:---|:---:|
+| **1주차** | **Deep Image Watermarking** | Encoder-Decoder, PSNR, COCO Dataset | [🔗 바로가기](./week1/) |
+| **2주차** | **Semantic Similarity Detection** | OpenAI CLIP, ViT-B/32, Cosine Similarity | [🔗 바로가기](./week2/) |
+| **3주차** | *(진행 예정)* | - | - |
 
-3) COCO 다운로드 및 압축 해제.
+---
 
-노트북의 데이터셋 셀을 실행해 COCO 2017을 내려받고 압축을 풉니다.
+## 📂 저장소 구조 (Directory Structure)
 
-4) 1단계 학습.
-
-```bash
-!python /content/wm_global32/train.py \
-  --train_dir /content/coco/train2017 \
-  --val_dir /content/coco/val2017 \
-  --output_dir "$OUTPUT_DIR" \
-  --img_size 224 \
-  --nbits 32 \
-  --batch_size 64 \
-  --epochs 10 \
-  --lambda_img 0.3 \
-  --lr 1e-4 \
-  --amp
-```
-
-5) (선택) 2단계 학습: 워터마크 강도 범위 확대.
-
-```bash
-!python train.py \
-  --train_dir /content/coco/train2017 \
-  --val_dir /content/coco/val2017 \
-  --output_dir "$OUTPUT_DIR" \
-  --img_size 224 \
-  --nbits 32 \
-  --batch_size 64 \
-  --epochs 30 \
-  --lambda_img 0.5 \
-  --lr 1e-4 \
-  --alpha_min 0.08 \
-  --alpha_max 0.18 \
-  --amp
-```
-
-6) 단일 이미지 추론.
-
-```bash
-!python inference_test.py \
-  --img_path /content/drive/MyDrive/WMimg/wm_004.png \
-  --message 20260101 \
-  --alpha 0.5 \
-  --out_dir /content/wm_global32/test_wm004
-```
-
-## 출력
-- OUTPUT_DIR 체크포인트: last.pt, baseline_v1.pt
-- out_dir 결과 이미지:
-  - step0_original.png
-  - step1_watermarked_off.png
-  - step2_attacked.png
-  - step3_diff.png
-
-## 참고
-- 디텍터는 ViT-B/16 백본을 고정하고 32비트 헤드로 출력합니다.
-- 메시지는 날짜 문자열(예: 20260101)을 32비트로 변환합니다.
-- Attack ON은 resize, center crop, JPEG 압축으로 강건성을 테스트합니다.
+```text
+root/
+├── README.md                # 전체 프로젝트 개요 (현재 파일)
+├── week1/                   # 1주차 활동: 이미지 워터마킹
+│   ├── README.md            # 워터마킹 모델 이론 및 실험 결과
+│   └── 인코더-디코더.ipynb    # 학습 및 추론 코드
+└── week2/                   # 2주차 활동: 이미지 유사도 탐지
+    ├── README.md            # CLIP 모델 이론 및 여행 사진 테스트 결과
+    └── 유사도탐지모델.ipynb    # CLIP 임베딩 및 유사도 측정 코드
