@@ -1,0 +1,59 @@
+# [Week 2] Image Similarity Detection using CLIP
+
+2주차 학습은 OpenAI의 **CLIP(Contrastive Language-Image Pre-training)** 모델을 활용하여, 이미지 간의 의미적(Semantic) 유사도를 계산하고 분석하는 실습을 진행했습니다. 단순한 픽셀 비교를 넘어 인공지능이 사물의 맥락을 어떻게 파악하는지 학습하는 데 중점을 두었습니다.
+
+---
+
+## 핵심 이론 (Core Theory)
+
+### 1. CLIP 모델의 구조
+CLIP은 이미지와 텍스트를 하나의 벡터 공간(Shared Embedding Space)에 공유하도록 설계된 멀티모달 모델입니다.
+
+
+
+* **Image Encoder**: 본 실습에서는 **ViT-B/32 (Vision Transformer)**를 사용하여 이미지를 고차원 특징 벡터로 변환합니다.
+* **Zero-shot Learning**: 특정 도메인에 국한되지 않고 일반적인 사물과 개념에 대해 뛰어난 이해력을 가집니다.
+
+### 2. 대조 학습 (Contrastive Learning)
+모델이 학습할 때 "유사한 데이터 쌍은 가깝게, 관련 없는 데이터 쌍은 멀게" 배치하도록 학습하는 기법입니다. 이를 통해 모델은 이미지의 지엽적인 특징이 아닌, 핵심적인 '의미'를 추출하는 법을 배웁니다.
+
+### 3. 코사인 유사도 (Cosine Similarity)
+추출된 두 벡터 사이의 각도를 측정하여 유사함을 판별합니다.
+
+
+
+* **수식**: $\text{similarity} = \cos(\theta) = \frac{A \cdot B}{\|A\| \|B\|}$
+* **특징**: 벡터의 크기(이미지의 밝기, 해상도 등)보다 **방향성(이미지의 내용)**에 집중하므로 이미지 유사도 판별에 매우 적합합니다.
+* **해석**: 
+    * **1에 가까울수록**: 두 이미지가 의미적으로 매우 유사함.
+    * **0에 가까울수록**: 두 이미지 사이에 상관관계가 없음.
+
+---
+
+##  주요 구현 내용 (Implementation)
+
+1.  **모델 로드**: `openai/CLIP` 라이브러리를 통해 사전 학습된 `ViT-B/32` 모델을 불러옵니다.
+2.  **전처리(Preprocessing)**: 입력 이미지를 모델이 학습했던 규격(224x224, Normalization)에 맞춰 변환합니다.
+3.  **특징 추출(Feature Extraction)**: 이미지를 512차원의 임베딩 벡터로 변환합니다.
+4.  **유사도 계산**: 두 벡터 간의 Cosine Similarity를 구하여 최종 점수를 도출합니다.
+
+---
+
+##  실습 결과 분석
+
+| 비교 유형 | 예상 유사도 | 실제 특징 |
+| :--- | :---: | :--- |
+| **완전 동일 이미지** | **1.00** | 모든 특징 벡터가 일치 |
+| **유사 개체 ** | **0.80 ~ 0.95** | 의미적 특징 공유 |
+| **전혀 다른 이미지** | **0.50 이하** | 배경, 피사체 등 공유하는 특징이 없음 |
+
+---
+
+## 시사점
+* 단순 픽셀 오차(MSE) 방식은 이미지가 1픽셀만 밀려도 큰 오차가 발생하지만, **CLIP 기반 방식은 구도나 조명이 달라도 내용을 정확히 파악**합니다.
+* 이 기술은 유사 이미지 검색 서비스, 사진 자동 분류, 저작권 도용 탐지 시스템 등에 핵심적으로 활용될 수 있습니다.
+
+---
+### 🔗 Reference
+* Paper: [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/abs/2103.00020)
+* GitHub: [OpenAI CLIP Official Repo](https://github.com/openai/CLIP)
