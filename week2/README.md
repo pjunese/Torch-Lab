@@ -55,5 +55,4 @@ CLIP은 이미지와 텍스트를 하나의 벡터 공간(Shared Embedding Space
 
 ---
 ### 🔗 Reference
-* Paper: [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/abs/2103.00020)
 * GitHub: [OpenAI CLIP Official Repo](https://github.com/openai/CLIP)
