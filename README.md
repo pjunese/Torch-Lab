@@ -32,6 +32,8 @@
 | **1주차** | **Deep Image Watermarking** | Encoder–Decoder, PSNR, COCO Dataset | [바로가기](./week1/) |
 | **2주차** | **Semantic Similarity Detection** | OpenAI CLIP, ViT-B/32, Cosine Similarity | [바로가기](./week2/) |
 | **3주차** | **Document / Text Watermarking** | WAM, PDF → Image, Bit Accuracy, Mask Detection | [바로가기](./week3/) |
+| **4주차** | **ANN (Approximate Nearest Neighbor)** | FAISS, HNSW, IVF-PQ, Vector Search | [바로가기](./week4/) |
+| **5주차** | **AI 이미지 진위 판정 시스템 설계** | OpenCLIP, hnswlib, 3-State Policy Engine | [바로가기](./week5/) |
 
 ---
 
@@ -46,6 +48,15 @@ root/
 ├── week2/                    # 2주차: 이미지 유사도 탐지
 │   ├── README.md
 │   └── 유사도탐지모델.ipynb
-└── week3/                    # 3주차: 문서 / 텍스트 워터마킹
-    ├── README.md             # PDF 기반 워터마킹 실험 정리
-    └── TXT_wm.ipynb          # PDF → 이미지 → WAM 실험 코드
+├── week3/                    # 3주차: 문서 / 텍스트 워터마킹
+│   ├── README.md             # PDF 기반 워터마킹 실험 정리
+│   └── TXT_wm.ipynb          # PDF → 이미지 → WAM 실험 코드
+├── week4/                    # 4주차: 근사 최근접 이웃(ANN) 알고리즘 비교
+│   ├── README.md             # HNSW vs IVF-PQ 개념 및 특징 정리
+│   └── ANN.py                # FAISS 기반 ANN 알고리즘 구현 및 비교
+└── week5/                    # 5주차: 서비스급 이미지 진위 판정 시스템
+    ├── README.md             # 시스템 설계 및 판정 정책(3-State) 정리
+    ├── ann_index.py          # HNSW 인덱싱 및 DB 변경 감지 로직
+    ├── embedder.py           # CLIP 기반 이미지 임베딩 생성
+    ├── policy.py             # Cosine + pHash 기반 정책 엔진
+    └── config.py             # 시스템 전역 설정 및 임계값 관리
