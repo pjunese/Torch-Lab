@@ -35,6 +35,7 @@
 | **4주차** | **ANN (Approximate Nearest Neighbor)** | FAISS, HNSW, IVF-PQ, Vector Search | [바로가기](./week4/) |
 | **5주차** | **AI 이미지 진위 판정 시스템 설계** | OpenCLIP, hnswlib, 3-State Policy Engine | [바로가기](./week5/) |
 | **6주차** | **WAM 기반 비가시성 워터마킹 실험 심화** | Meta WAM, Partial Masking, PSNR/SSIM, Bit Accuracy | [바로가기](./week6/) |
+| **7주차** | **Image Guard 시스템 구현 및 실험** | OpenCLIP, hnswlib/pgvector, pHash, FastAPI, ORB+RANSAC | [바로가기](./week7/) |
 
 ---
 
@@ -61,6 +62,12 @@ root/
 │   ├── embedder.py           # CLIP 기반 이미지 임베딩 생성
 │   ├── policy.py             # Cosine + pHash 기반 정책 엔진
 │   └── config.py             # 시스템 전역 설정 및 임계값 관리
-└── week6/                    # 6주차: WAM 심화 실험 및 파라미터 분석
-    ├── README.md             # WAM 전체 실험 요약 및 해석
-    └── Meta_WM_test.ipynb    # Partial Masking / scaling_w 스윕 실험
+├── week6/                    # 6주차: WAM 심화 실험 및 파라미터 분석
+│   ├── README.md             # WAM 전체 실험 요약 및 해석
+│   └── Meta_WM_test.ipynb    # Partial Masking / scaling_w 스윕 실험
+└── week7/                    # 7주차: Image Guard 시스템 구현 및 실험
+    ├── README.md             # 전체 파이프라인 개요 및 API 스펙 정리
+    ├── app/                  # Guard API 및 핵심 로직
+    ├── experiments/          # 특징점 매칭/회전 실험
+    └── assets/               # 결과 이미지
+```
